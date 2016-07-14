@@ -347,6 +347,82 @@ file contianed in an ubiquite device.</p>
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="UbiConfigManager.UbiConfigManager.config_dict_to_text">
+<code class="descname">config_dict_to_text</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager.config_dict_to_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the dict configuation and convert it to text.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="UbiConfigManager.UbiConfigManager.config_text_to_dict">
+<code class="descname">config_text_to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager.config_text_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the text configuation and convert it to dict.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="UbiConfigManager.UbiConfigManager.gather_config">
+<code class="descname">gather_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager.gather_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gatheres the configuration from the device. Then sync the config_dict
+accordingly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="UbiConfigManager.UbiConfigManager.push_config">
+<code class="descname">push_config</code><span class="sig-paren">(</span><em>avoid_test=False</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager.push_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push textual config to the ubiquiti device. Then Run test on the
+config. If after test the ubuquiti device is still answering, it
+will apply the configuration definitely.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>avoid_test</strong> : bool</p>
+<blockquote>
+<div><p>Default is False, if you want to apply the config no matter what,
+you can use avoid_test=True.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>UbiConfigTest</strong></p>
+<blockquote class="last">
+<div><p>If the device is not reachable after test.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="UbiConfigManager.UbiConfigManager.set_value">
+<code class="descname">set_value</code><span class="sig-paren">(</span><em>config_path</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager.set_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Grab a config Path either in the form of a list of keys, or textual,
+like [&#8216;resolv&#8217;, &#8216;host&#8217;, &#8216;1&#8217;, &#8216;name&#8217;] or &#8216;resolv.host.1.name&#8217;, and
+a value. Then set the value if keys where correct.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>config_path</strong> : list or str</p>
+<blockquote>
+<div><p>Path either in the form of a list of keys, or textual.</p>
+</div></blockquote>
+<p><strong>value</strong> : str</p>
+<blockquote>
+<div><p>Value to be set in the configuration</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>KeyError</strong></p>
+<blockquote class="last">
+<div><p>If path was incorrect somewhere.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 </div>

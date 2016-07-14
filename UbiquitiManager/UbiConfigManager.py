@@ -41,6 +41,9 @@ class UbiConfigManager(object):
         self._get_from_dict(this_dict, k_list[:-1])[k_list[-1]] = value
 
     def config_text_to_dict(self):
+        '''
+        Takes the text configuation and convert it to dict.
+        '''
         for line in str(self.config).splitlines():
             key = line.split('=')[0]
             value = '='.join(line.split('=')[1:])
@@ -52,6 +55,9 @@ class UbiConfigManager(object):
             self._set_to_dict(self.config_dict, key.split('.'), value)
 
     def config_dict_to_text(self):
+        '''
+        Takes the dict configuation and convert it to text.
+        '''
         def parse_dict(thisdict, path=''):
             ret = {}
             for nextpath, val in thisdict.items():
@@ -68,11 +74,31 @@ class UbiConfigManager(object):
         self.config = '\n'.join(result)
 
     def gather_config(self):
+        '''
+        Gatheres the configuration from the device. Then sync the config_dict
+        accordingly.
+        '''
         self.connector.ubi_authentication()
         self.config = self.connector.ubi_request_get('cfg.cgi')
         self.config_text_to_dict()
 
-    def push_config(self):
+    def push_config(self, avoid_test=False):
+        '''
+        Push textual config to the ubiquiti device. Then Run test on the
+        config. If after test the ubuquiti device is still answering, it
+        will apply the configuration definitely.
+
+        Parameters
+        ----------
+        avoid_test : bool
+            Default is False, if you want to apply the config no matter what,
+            you can use avoid_test=True.
+
+        Raises
+        ------
+        UbiConfigTest
+            If the device is not reachable after test.
+        '''
         import time
         self.connector.ubi_authentication()
         config_file = StringIO(self.config)
@@ -85,19 +111,20 @@ class UbiConfigManager(object):
                 'action': 'cfgupload'
             }
         )
-        self.connector.ubi_request_post(
-            'apply.cgi',
-            {
-                'testmode': 'on',
-            }
-        )
-        time.sleep(20)
-        try:
-            result = self.connector.ubi_request_get('system.cgi')
-        except Exception as e:
-            raise UbiConfigTest(
-                'Configuration Test Failed. Error : {}'.format(str(e))
+        if not avoid_test:
+            self.connector.ubi_request_post(
+                'apply.cgi',
+                {
+                    'testmode': 'on',
+                }
             )
+            time.sleep(20)
+            try:
+                result = self.connector.ubi_request_get('system.cgi')
+            except Exception as e:
+                raise UbiConfigTest(
+                    'Configuration Test Failed. Error : {}'.format(str(e))
+                )
 
         result = self.connector.ubi_request_post(
             'apply.cgi',
@@ -106,3 +133,29 @@ class UbiConfigManager(object):
             }
         )
         del result
+
+    def set_value(self, config_path, value):
+        '''
+        Grab a config Path either in the form of a list of keys, or textual,
+        like ['resolv', 'host', '1', 'name'] or 'resolv.host.1.name', and
+        a value. Then set the value if keys where correct.
+
+        Parameters
+        ----------
+        config_path : list or str
+            Path either in the form of a list of keys, or textual.
+        value : str
+            Value to be set in the configuration
+
+        Raises
+        ------
+        KeyError
+            If path was incorrect somewhere.
+        '''
+        dict_path = []
+        if isinstance(config_path, list):
+            dict_path = config_path
+        else:
+            dict_path = str(config_path).split('.')
+        self._set_to_dict(self.config_dict, dict_path, value)
+        self.config_dict_to_text()
