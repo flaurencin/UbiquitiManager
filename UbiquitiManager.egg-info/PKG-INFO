@@ -1,0 +1,60 @@
+Metadata-Version: 1.1
+Name: UbiquitiManager
+Version: 0.0.1
+Summary: set of python tools for managing ubiquiti access points.
+Home-page: https://github.com/flaurencin/UbiquitiManager
+Author: Frederic Laurencin
+Author-email: flaurencin@free.fr
+License: http://www.apache.org/licenses/LICENSE-2.0
+Description: UbiquitiManager
+        ===============
+        
+        UbiquitiManager is a set of python tools for managing ubiquiti access 
+        points.
+        
+        Done:
+            - UbiExplorer API to access the deice with:
+        
+                - authentication
+                - data gathering wit POST and GET
+        
+        To Do :
+            
+            #. Manipulate configuration Files
+            #. Reboot device
+            #. Upgrade device
+            #. Change the Password
+            #. Muli tasker for massive deployment
+        
+        
+        Documentation
+        -------------
+        
+        Coming with the package, based on code using sphinx documentation with 
+        numpydoc.
+        
+        
+        Copyright
+        ---------
+        
+        Copyright 2016 Frédéric Laurencin
+        
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+        
+            http://www.apache.org/licenses/LICENSE-2.0
+        
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+        
+Keywords: ubiquiti network wireless devops tool
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Network DevOps :: Build Tools
+Classifier: License :: APACHE :: LICENSE-2.0
+Classifier: Programming Language :: Python :: 3.5

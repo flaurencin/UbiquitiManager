@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to UbiquitiManager’s documentation! &mdash; UbiquitiManager 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="UbiquitiManager 0.0.1 documentation" href="#"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> UbiquitiManager
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="simple">
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">UbiquitiManager</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>Welcome to UbiquitiManager&#8217;s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-ubiquitimanager-s-documentation">
+<h1>Welcome to UbiquitiManager&#8217;s documentation!<a class="headerlink" href="#welcome-to-ubiquitimanager-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<span class="target" id="module-UbiConnector"></span><dl class="class">
+<dt id="UbiConnector.UbiConnector">
+<em class="property">class </em><code class="descclassname">UbiConnector.</code><code class="descname">UbiConnector</code><span class="sig-paren">(</span><em>host</em>, <em>login</em>, <em>password</em>, <em>protocol='https'</em>, <em>port=443</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConnector.UbiConnector" title="Permalink to this definition">¶</a></dt>
+<dd><p>UbiConnector Allow you to poll Ubiquiti AP. It handles login, and
+requests. It detects json data and returns python data if possible. It
+also keeps track of data gathered.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>host</td>
+<td>(str) host targeted for data gathering</td>
+</tr>
+<tr class="row-even"><td>login</td>
+<td>(str) Login crediential to access the target.</td>
+</tr>
+<tr class="row-odd"><td>passwords</td>
+<td>(list) List of str, containing potential passwords crediential to access the target.</td>
+</tr>
+<tr class="row-even"><td>protocol</td>
+<td>(str) Use http or https for eccessing the device</td>
+</tr>
+<tr class="row-odd"><td>port</td>
+<td>(str) strcontaining the port number to access te device.</td>
+</tr>
+<tr class="row-even"><td>baseurl</td>
+<td>(str) url validated after authentication.</td>
+</tr>
+<tr class="row-odd"><td>data</td>
+<td>(dict) for every page requested will store latest gathered data.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ubi_authentication()</td>
+<td>Attemps authentication to the device, Raise exception if failed to log in.</td>
+</tr>
+<tr class="row-even"><td>ubi_request_post(path, data)</td>
+<td>Attemps to gather data via post to the given path, setting encoding type to multipart/form-data.</td>
+</tr>
+<tr class="row-odd"><td>ubi_request_get(path)</td>
+<td>Attemps to gather data via get to the given path.</td>
+</tr>
+<tr class="row-even"><td>ubi_add_password(other_password)</td>
+<td>Extend the possible passwords list.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="UbiConnector.UbiConnector.ubi_add_password">
+<code class="descname">ubi_add_password</code><span class="sig-paren">(</span><em>other_password</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConnector.UbiConnector.ubi_add_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add one or more possible passwords.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other_password</strong> : str or list</p>
+<blockquote class="last">
+<div><p>Adds the password or the list of password to the potential
+passwords.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="UbiConnector.UbiConnector.ubi_authentication">
+<code class="descname">ubi_authentication</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UbiConnector.UbiConnector.ubi_authentication" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attemps authentication to the device, Raise exception if failed to log
+in.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>UbiAuthException</strong></p>
+<blockquote class="last">
+<div><p>if none of the login:pawwsords worked.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="UbiConnector.UbiConnector.ubi_request_get">
+<code class="descname">ubi_request_get</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConnector.UbiConnector.ubi_request_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attemps to gather data via post to the given path, setting encoding
+type to multipart/form-data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path</strong> : str</p>
+<blockquote>
+<div><p>path to add to the base connection url.</p>
+</div></blockquote>
+<p><strong>data</strong> : dict</p>
+<blockquote>
+<div><p>parameter to post to the given path. With key=form_id and and
+value=form_value</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>result</strong> : dict or str</p>
+<blockquote>
+<div><p>if the output was readable json returns the dict loaded from the
+json, else return text data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>UbiHttpException</strong></p>
+<blockquote class="last">
+<div><p>if http return code was not of type 2xx.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="UbiConnector.UbiConnector.ubi_request_post">
+<code class="descname">ubi_request_post</code><span class="sig-paren">(</span><em>path</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConnector.UbiConnector.ubi_request_post" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attemps to gather data via post to the given path, setting encoding
+type to multipart/form-data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path</strong> : str</p>
+<blockquote>
+<div><p>path to add to the base connection url.</p>
+</div></blockquote>
+<p><strong>data</strong> : dict</p>
+<blockquote>
+<div><p>parameter to post to the given path. With key=form_id and and
+value=form_value, if you want to add filename use a tuple in the
+value as (filename, value)</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>result</strong> : dict or str</p>
+<blockquote>
+<div><p>if the output was readable json returns the dict loaded from the
+json, else return text data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>UbiHttpException</strong></p>
+<blockquote class="last">
+<div><p>if http return code was not of type 2xx.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-UbiConfigManager"></span><dl class="class">
+<dt id="UbiConfigManager.UbiConfigManager">
+<em class="property">class </em><code class="descclassname">UbiConfigManager.</code><code class="descname">UbiConfigManager</code><span class="sig-paren">(</span><em>ubiquiti_connector</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class will allow you togather, manipulate and push configuratio
+file contianed in an ubiquite device.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>connector</td>
+<td>(UbiquitiManager.UbiConnector) Connector Object.</td>
+</tr>
+<tr class="row-even"><td>config</td>
+<td>(str) Text configuration</td>
+</tr>
+<tr class="row-odd"><td>config_dict</td>
+<td>(dict) Configuration converted in dict od dict of dict etc...</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>config_text_to_dict()</td>
+<td>Converts Text config to dict</td>
+</tr>
+<tr class="row-even"><td>config_dict_to_text()</td>
+<td>Converts dict config to text config (understandable by device)</td>
+</tr>
+<tr class="row-odd"><td>gather_config()</td>
+<td>gather the config from the device.</td>
+</tr>
+<tr class="row-even"><td>push_config()</td>
+<td>Push and saves configuration to device.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Frederic Laurencin.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

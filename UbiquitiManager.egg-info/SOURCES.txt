@@ -1,0 +1,13 @@
+MANIFEST.in
+README.rst
+setup.cfg
+setup.py
+UbiquitiManager/UbiConfigManager.py
+UbiquitiManager/UbiConnector.py
+UbiquitiManager/UbiExceptions.py
+UbiquitiManager/__init__.py
+UbiquitiManager.egg-info/PKG-INFO
+UbiquitiManager.egg-info/SOURCES.txt
+UbiquitiManager.egg-info/dependency_links.txt
+UbiquitiManager.egg-info/requires.txt
+UbiquitiManager.egg-info/top_level.txt
