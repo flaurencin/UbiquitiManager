@@ -3,6 +3,12 @@ from setuptools import setup, find_packages
 # To use a consistent encoding
 from codecs import open
 from os import path
+from UbiquitiManager import __version__
+from UbiquitiManager import __title__
+from UbiquitiManager import __author__
+from UbiquitiManager import __author_email__
+from UbiquitiManager import __license__
+from UbiquitiManager import __copyright__
 
 here = path.abspath(path.dirname(__file__))
 
@@ -11,12 +17,12 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='UbiquitiManager',
+    name=__title__,
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.0.1',
+    version=__version__,
 
     description='set of python tools for managing ubiquiti access points.',
     long_description=long_description,
@@ -25,11 +31,11 @@ setup(
     url='https://github.com/flaurencin/UbiquitiManager',
 
     # Author details
-    author='Frederic Laurencin',
-    author_email='flaurencin@free.fr',
+    author=__author__,
+    author_email=__author_email__,
 
     # Choose your license
-    license='http://www.apache.org/licenses/LICENSE-2.0',
+    license=__license__,
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[

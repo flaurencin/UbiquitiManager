@@ -1,7 +1,10 @@
+import time
 from io import StringIO
 from functools import reduce
 from UbiquitiManager.UbiExceptions import UbiConfigTest
-
+from UbiquitiManager.UbiExceptions import UbiBadFirmware
+from UbiquitiManager.UbiExceptions import UbiAuthException
+from UbiquitiManager.UbiExceptions import UbiAlertConnectivityLost
 
 class UbiConfigManager(object):
     '''
@@ -159,3 +162,53 @@ class UbiConfigManager(object):
             dict_path = str(config_path).split('.')
         self._set_to_dict(self.config_dict, dict_path, value)
         self.config_dict_to_text()
+
+    def fw_upgrade(self, fwfile, timeout=(3, 1250)):
+        '''
+        Takes the firmware upgrade file pointed by the given file descriptor.
+
+        Parameters
+        ----------
+        fwfile : _io.BufferedReader
+            File buffer reader.
+        timeout : tuple optional
+            specific time outs for firmware upgrade. By default, will wait
+            3 seconds for tcp connection, and 1600s for answer (10MB at 64kb/s)
+            if you have bandwidth available for sure it can be reasonnable to
+            lower these values.
+
+        Raises
+        ------
+            UbiBadFirmware
+                When file is not a valid Firmware
+            
+        '''
+        bad_file = 'Invalid Firmware file is uploaded'
+        self.connector.ubi_authentication()
+        result = self.connector.ubi_request_post(
+            'system.cgi',
+            {
+                'fwfile': ('fw.bin', fwfile),
+                'fwupload': 'Restaurer',
+                'action': 'fwupload'
+            },
+            timeout=timeout
+        )
+        if bad_file in result:
+            raise UbiBadFirmware(
+                'Ubiquiti device did not accept this firmware'
+            )
+        elif 'class="logintable"' in result:
+            raise UbiAuthException(
+                'Ubiquiti disconnected while attemping to push firmware!'
+            )
+        result = self.connector.ubi_request_get(
+            'fwflash.cgi?do_update=do'
+        )
+        for i in range(0, 20):
+            time.sleep(20)
+            try:
+                self.connector.ubi_authentication()
+                return
+            except:
+                UbiAlertConnectivityLost('Connectivity Lost After Upgrade')

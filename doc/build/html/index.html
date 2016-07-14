@@ -228,7 +228,7 @@ in.</p>
 
 <dl class="method">
 <dt id="UbiConnector.UbiConnector.ubi_request_get">
-<code class="descname">ubi_request_get</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConnector.UbiConnector.ubi_request_get" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ubi_request_get</code><span class="sig-paren">(</span><em>path</em>, <em>timeout=(3</em>, <em>250)</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConnector.UbiConnector.ubi_request_get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attemps to gather data via post to the given path, setting encoding
 type to multipart/form-data.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -243,6 +243,11 @@ type to multipart/form-data.</p>
 <blockquote>
 <div><p>parameter to post to the given path. With key=form_id and and
 value=form_value</p>
+</div></blockquote>
+<p><strong>timeout</strong> : tuple optional</p>
+<blockquote>
+<div><p>Time outs for genereal purpose requests. By default, will wait
+3 seconds for tcp connection, and 250s for answer.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -265,7 +270,7 @@ json, else return text data.</p>
 
 <dl class="method">
 <dt id="UbiConnector.UbiConnector.ubi_request_post">
-<code class="descname">ubi_request_post</code><span class="sig-paren">(</span><em>path</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConnector.UbiConnector.ubi_request_post" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ubi_request_post</code><span class="sig-paren">(</span><em>path</em>, <em>data</em>, <em>timeout=(3</em>, <em>250)</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConnector.UbiConnector.ubi_request_post" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attemps to gather data via post to the given path, setting encoding
 type to multipart/form-data.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -281,6 +286,11 @@ type to multipart/form-data.</p>
 <div><p>parameter to post to the given path. With key=form_id and and
 value=form_value, if you want to add filename use a tuple in the
 value as (filename, value)</p>
+</div></blockquote>
+<p><strong>timeout</strong> : tuple optional</p>
+<blockquote>
+<div><p>Time outs for genereal purpose requests. By default, will wait
+3 seconds for tcp connection, and 250s for answer.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -357,6 +367,37 @@ file contianed in an ubiquite device.</p>
 <dt id="UbiConfigManager.UbiConfigManager.config_text_to_dict">
 <code class="descname">config_text_to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager.config_text_to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes the text configuation and convert it to dict.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="UbiConfigManager.UbiConfigManager.fw_upgrade">
+<code class="descname">fw_upgrade</code><span class="sig-paren">(</span><em>fwfile</em>, <em>timeout=(3</em>, <em>1250)</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager.fw_upgrade" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the firmware upgrade file pointed by the given file descriptor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fwfile</strong> : _io.BufferedReader</p>
+<blockquote>
+<div><p>File buffer reader.</p>
+</div></blockquote>
+<p><strong>timeout</strong> : tuple optional</p>
+<blockquote>
+<div><p>specific time outs for firmware upgrade. By default, will wait
+3 seconds for tcp connection, and 1600s for answer (10MB at 64kb/s)
+if you have bandwidth available for sure it can be reasonnable to
+lower these values.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>UbiBadFirmware</strong></p>
+<blockquote class="last">
+<div><p>When file is not a valid Firmware</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">

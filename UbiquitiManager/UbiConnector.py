@@ -128,7 +128,7 @@ class UbiConnector(object):
         except:
             return result.text
 
-    def ubi_request_post(self, path, data):
+    def ubi_request_post(self, path, data, timeout=(3, 250)):
         '''
         Attemps to gather data via post to the given path, setting encoding
         type to multipart/form-data.
@@ -141,6 +141,9 @@ class UbiConnector(object):
             parameter to post to the given path. With key=form_id and and
             value=form_value, if you want to add filename use a tuple in the
             value as (filename, value)
+        timeout : tuple optional
+            Time outs for genereal purpose requests. By default, will wait
+            3 seconds for tcp connection, and 250s for answer.
 
         Returns
         -------
@@ -159,12 +162,13 @@ class UbiConnector(object):
 
         result = self.session.post(
             '{}/{}'.format(self.baseurl, path),
-            files=data
+            files=data,
+            timeout=timeout
         )
         result = self._treat_http_return(result, path)
         return result
 
-    def ubi_request_get(self, path):
+    def ubi_request_get(self, path, timeout=(3, 250)):
         '''
         Attemps to gather data via post to the given path, setting encoding
         type to multipart/form-data.
@@ -176,6 +180,9 @@ class UbiConnector(object):
         data : dict
             parameter to post to the given path. With key=form_id and and
             value=form_value
+        timeout : tuple optional
+            Time outs for genereal purpose requests. By default, will wait
+            3 seconds for tcp connection, and 250s for answer.
 
         Returns
         -------
@@ -190,6 +197,7 @@ class UbiConnector(object):
         '''
         result = self.session.get(
             '{}/{}'.format(self.baseurl, path),
+            timeout=timeout
         )
         return self._treat_http_return(result, path)
 

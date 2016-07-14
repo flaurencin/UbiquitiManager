@@ -12,3 +12,11 @@ class UbiHostException(Exception):
 
 class UbiConfigTest(Exception):
     pass
+
+
+class UbiAlertConnectivityLost(Exception):
+    pass
+
+
+class UbiBadFirmware(Exception):
+    pass
