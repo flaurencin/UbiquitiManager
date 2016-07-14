@@ -6,6 +6,7 @@ from UbiquitiManager.UbiExceptions import UbiBadFirmware
 from UbiquitiManager.UbiExceptions import UbiAuthException
 from UbiquitiManager.UbiExceptions import UbiAlertConnectivityLost
 
+
 class UbiConfigManager(object):
     '''
     This class will allow you togather, manipulate and push configuratio
@@ -181,9 +182,8 @@ class UbiConfigManager(object):
         ------
             UbiBadFirmware
                 When file is not a valid Firmware
-            
         '''
-        bad_file = 'Invalid Firmware file is uploaded'
+        bad_file = '<div id="error">'
         self.connector.ubi_authentication()
         result = self.connector.ubi_request_post(
             'system.cgi',

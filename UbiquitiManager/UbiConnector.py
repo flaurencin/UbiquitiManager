@@ -98,12 +98,6 @@ class UbiConnector(object):
             )
             clean_data = data.text.replace(' ', '')
             clean_data = clean_data.replace('\t', '')
-#            valid_conditions = [
-#                'class="logintable"' not in clean_data,
-#                '<divid="errmsg"class="error">\n\n</div>' in clean_data
-#            ]
-#            valid_conditions = any(valid_conditions)
-            print(clean_data)
             if 'class="logintable"' not in clean_data:
                 base_url = '{0}://{1}:{2}'.format(
                     self.protocol,
