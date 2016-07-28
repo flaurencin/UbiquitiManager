@@ -316,8 +316,8 @@ json, else return text data.</p>
 <span class="target" id="module-UbiConfigManager"></span><dl class="class">
 <dt id="UbiConfigManager.UbiConfigManager">
 <em class="property">class </em><code class="descclassname">UbiConfigManager.</code><code class="descname">UbiConfigManager</code><span class="sig-paren">(</span><em>ubiquiti_connector</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class will allow you togather, manipulate and push configuratio
-file contianed in an ubiquite device.</p>
+<dd><p>This class will allow you to gather, manipulate and push configuration
+file contained in an ubiquiti device.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -357,6 +357,36 @@ file contianed in an ubiquite device.</p>
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="UbiConfigManager.UbiConfigManager.change_password">
+<code class="descname">change_password</code><span class="sig-paren">(</span><em>password</em>, <em>user='admin'</em><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager.change_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the password of system user. By default will change admin
+account password. Be careful, you have to push the configuration
+afterward.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>password</strong> : str</p>
+<blockquote>
+<div><p>New password for the user.</p>
+</div></blockquote>
+<p><strong>user</strong> : str, optional</p>
+<blockquote>
+<div><p>Select the user you want to change the password, by default admin.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>UbiConfigChangeFailed</strong></p>
+<blockquote class="last">
+<div><p>If the user was no found.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="UbiConfigManager.UbiConfigManager.config_dict_to_text">
 <code class="descname">config_dict_to_text</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager.config_dict_to_text" title="Permalink to this definition">¶</a></dt>
@@ -462,6 +492,12 @@ a value. Then set the value if keys where correct.</p>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="UbiConfigManager.UbiConfigManager.wirless_clients">
+<code class="descname">wirless_clients</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UbiConfigManager.UbiConfigManager.wirless_clients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return client data for AP</p>
 </dd></dl>
 
 </dd></dl>

@@ -1,16 +1,20 @@
 import time
+import string
+import random
 from io import StringIO
+from crypt import crypt
 from functools import reduce
 from UbiquitiManager.UbiExceptions import UbiConfigTest
 from UbiquitiManager.UbiExceptions import UbiBadFirmware
 from UbiquitiManager.UbiExceptions import UbiAuthException
 from UbiquitiManager.UbiExceptions import UbiAlertConnectivityLost
+from UbiquitiManager.UbiExceptions import UbiConfigChangeFailed
 
 
 class UbiConfigManager(object):
     '''
-    This class will allow you togather, manipulate and push configuratio
-    file contianed in an ubiquite device.
+    This class will allow you to gather, manipulate and push configuration
+    file contained in an ubiquiti device.
 
     Attributes
     ----------
@@ -38,11 +42,11 @@ class UbiConfigManager(object):
         self.config_dict = {}
         self.gather_config()
 
-    def _get_from_dict(self, this_dict, k_list):
-        return reduce(lambda data, key: data[key], k_list, this_dict)
+    def _get_from_dict(self, k_list):
+        return reduce(lambda data, key: data[key], k_list, self.config_dict)
 
-    def _set_to_dict(self, this_dict, k_list, value):
-        self._get_from_dict(this_dict, k_list[:-1])[k_list[-1]] = value
+    def _set_to_dict(self, k_list, value):
+        self._get_from_dict(k_list[:-1])[k_list[-1]] = value
 
     def config_text_to_dict(self):
         '''
@@ -56,13 +60,17 @@ class UbiConfigManager(object):
                 if element not in tmp_dict:
                     tmp_dict[element] = {}
                 tmp_dict = tmp_dict[element]
-            self._set_to_dict(self.config_dict, key.split('.'), value)
+            self._set_to_dict(key.split('.'), value)
 
     def config_dict_to_text(self):
         '''
         Takes the dict configuation and convert it to text.
         '''
         def parse_dict(thisdict, path=''):
+            '''
+            Recurcive Function for converting embeded dict keys
+            in new keys for the previous dict.
+            '''
             ret = {}
             for nextpath, val in thisdict.items():
                 newpath = path+nextpath
@@ -73,8 +81,8 @@ class UbiConfigManager(object):
             return ret
         final_dict = parse_dict(self.config_dict)
         result = []
-        for k, v in sorted(final_dict.items()):
-            result.append('{}={}'.format(k, v))
+        for key, value in sorted(final_dict.items()):
+            result.append('{}={}'.format(key, value))
         self.config = '\n'.join(result)
 
     def gather_config(self):
@@ -103,7 +111,6 @@ class UbiConfigManager(object):
         UbiConfigTest
             If the device is not reachable after test.
         '''
-        import time
         self.connector.ubi_authentication()
         config_file = StringIO(self.config)
         config_file.seek(0)
@@ -125,9 +132,9 @@ class UbiConfigManager(object):
             time.sleep(20)
             try:
                 result = self.connector.ubi_request_get('system.cgi')
-            except Exception as e:
+            except Exception as excpt:
                 raise UbiConfigTest(
-                    'Configuration Test Failed. Error : {}'.format(str(e))
+                    'Configuration Test Failed. Error : {}'.format(str(excpt))
                 )
 
         result = self.connector.ubi_request_post(
@@ -161,8 +168,17 @@ class UbiConfigManager(object):
             dict_path = config_path
         else:
             dict_path = str(config_path).split('.')
-        self._set_to_dict(self.config_dict, dict_path, value)
+        self._set_to_dict(dict_path, value)
         self.config_dict_to_text()
+
+    def wirless_clients(self):
+        '''
+        Return client data for AP
+        '''
+        result = self.connector.ubi_request_get(
+            'sta.cgi'
+        )
+        return result
 
     def fw_upgrade(self, fwfile, timeout=(3, 1250)):
         '''
@@ -205,10 +221,47 @@ class UbiConfigManager(object):
         result = self.connector.ubi_request_get(
             'fwflash.cgi?do_update=do'
         )
-        for i in range(0, 20):
+        for _ in range(0, 20):
             time.sleep(20)
             try:
                 self.connector.ubi_authentication()
                 return
-            except:
-                UbiAlertConnectivityLost('Connectivity Lost After Upgrade')
+            except Exception as excpt:
+                UbiAlertConnectivityLost(
+                    'Connectivity Lost After Upgrade {}'.format(str(excpt))
+                )
+
+    def change_password(self, password, user='admin'):
+        '''
+        Change the password of system user. By default will change admin
+        account password. Be careful, you have to push the configuration
+        afterward.
+
+        Parameters
+        ----------
+        password : str
+            New password for the user.
+        user : str, optional
+            Select the user you want to change the password, by default admin.
+
+        Raises
+        ------
+        UbiConfigChangeFailed
+            If the user was no found.
+        '''
+        pwd_changed = False
+        for userid, param in self.config_dict['users'].items():
+            print('userid : {}\nparam: {}'.format(userid, param))
+            if not isinstance(param, dict):
+                continue
+            elif 'name' not in param:
+                continue
+            elif param['name'] == user:
+                valid_char = string.ascii_letters + string.digits
+                salt = ''.join(random.choice(valid_char) for _ in range(2))
+                param['password'] = crypt(password, salt)
+                pwd_changed = True
+                break
+        if not pwd_changed:
+            raise UbiConfigChangeFailed('User not Found')
+        self.config_dict_to_text()

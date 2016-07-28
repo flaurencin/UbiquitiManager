@@ -46,6 +46,9 @@ class UbiConnector(object):
         Extend the possible passwords list.
     '''
 
+    # pylint: disable=too-many-instance-attributes
+    # pylint: disable=too-many-arguments
+
     def __init__(self, host, login, password, protocol='https', port=443):
         self.host = None
         try:
@@ -62,6 +65,7 @@ class UbiConnector(object):
         self.port = str(port)
         self.baseurl = None
         self.data = {}
+        self.session = None
 
     def ubi_authentication(self):
         '''
@@ -212,16 +216,16 @@ class UbiConnector(object):
 
 
 if __name__ == '__main__':
-    ap = UbiConnector(
+    AP = UbiConnector(
         'localhost',
         'admin',
         'password',
         port='443'
     )
-    ap.ubi_add_password('password2')
-    ap.ubi_authentication()
-    data = ap.ubi_request_get('status.cgi')
+    AP.ubi_add_password('password2')
+    AP.ubi_authentication()
+    APDATA = AP.ubi_request_get('status.cgi')
     import yaml
-    print(yaml.dump(data, default_flow_style=False))
-    data = ap.ubi_request_get('cfg.cgi')
-    print(data)
+    print(yaml.dump(APDATA, default_flow_style=False))
+    APDATA = AP.ubi_request_get('cfg.cgi')
+    print(APDATA)
